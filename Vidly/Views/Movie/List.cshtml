@@ -1,0 +1,43 @@
+﻿
+@model Vidly.ViewModels.MovieListViewModel
+
+@{
+    ViewBag.Title = "Movies";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Movies</h2>
+
+@{
+    if (Model.MovieList.Count == 0)
+    {   <p>Movie list is currently empty!</p> }
+    else
+    {
+        <table class="table table-striped table-hover ">
+            <thead>
+                <tr>
+                    <th>#</th>                    
+                    <th>Title</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                
+                @foreach (var movie in Model.MovieList)
+                {
+                    var cssClass = movie.Id % 2 == 0 ? "success" : "warning";
+                    
+                    <tr class="@cssClass">
+                        <td>@movie.Id</td>
+                        <td>
+                            @Html.ActionLink(movie.Title, "Details", "Movie", new { id = movie.Id }, null)
+                        </td>
+                        <td></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        }
+    }
+
+
