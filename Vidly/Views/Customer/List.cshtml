@@ -8,3 +8,37 @@
 
 <h2>Customers</h2>
 
+@{
+    if (Model.CustomerList.Count == 0)
+    {   <p>Customer list is currently empty!</p> }
+    else
+    {
+        <table class="table table-striped table-hover ">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Discount Rate</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var customer in Model.CustomerList)
+                {
+                    var cssClass = ""; // customer.Id % 2 == 0 ? "success" : "warning";
+
+                    <tr class="@cssClass">
+                        <td>@customer.Id</td>
+                        <td>
+                            @Html.ActionLink(customer.Name, "Details", "Customer", new { id = customer.Id }, null)
+                        </td>
+                        <td>
+                            @customer.MembershipType.DiscountRate%
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+}
+
