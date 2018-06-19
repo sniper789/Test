@@ -34,5 +34,11 @@ namespace Vidly.Controllers
                 
             return View(model);
         }
+
+        public ActionResult Details(int id)
+        {
+            Customer model = _context.Customers.Include(c => c.MembershipType).SingleOrDefault(c => c.Id == id);
+            return View(model);
+        }
     }
 }

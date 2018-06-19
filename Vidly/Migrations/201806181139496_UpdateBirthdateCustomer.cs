@@ -7,8 +7,8 @@ namespace Vidly.Migrations
     {
         public override void Up()
         {
-            Sql(string.Format("UPDATE Customers SET Birthdate={0} WHERE Id=1", new DateTime(1984, 7, 17)));
-            Sql(string.Format("UPDATE Customers SET Birthdate={0} WHERE Id=2", new DateTime(1989, 1, 1)));
+            Sql("UPDATE Customers SET Birthdate=CONVERT(datetime, '17/07/1984', 103) WHERE Id=1");
+            Sql("UPDATE Customers SET Birthdate=CONVERT(datetime, '01/01/1989', 103) WHERE Id=2");
         }
         
         public override void Down()
