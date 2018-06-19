@@ -247,6 +247,14 @@
     <Compile Include="Migrations\201806190449091_PopulateGenre.Designer.cs">
       <DependentUpon>201806190449091_PopulateGenre.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806190750548_AddGenreIdToMovie.cs" />
+    <Compile Include="Migrations\201806190750548_AddGenreIdToMovie.Designer.cs">
+      <DependentUpon>201806190750548_AddGenreIdToMovie.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806190759061_RemoveGenreIdToMovie.cs" />
+    <Compile Include="Migrations\201806190759061_RemoveGenreIdToMovie.Designer.cs">
+      <DependentUpon>201806190759061_RemoveGenreIdToMovie.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -258,6 +266,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CustomerListViewModel.cs" />
+    <Compile Include="ViewModels\MovieFormViewModel.cs" />
     <Compile Include="ViewModels\MovieListViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -323,6 +332,7 @@
     <Content Include="Views\Movie\List.cshtml" />
     <Content Include="Views\Customer\Details.cshtml" />
     <Content Include="Views\Movie\Details.cshtml" />
+    <Content Include="Views\Movie\MovieForm.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -368,6 +378,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806190449091_PopulateGenre.resx">
       <DependentUpon>201806190449091_PopulateGenre.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806190750548_AddGenreIdToMovie.resx">
+      <DependentUpon>201806190750548_AddGenreIdToMovie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806190759061_RemoveGenreIdToMovie.resx">
+      <DependentUpon>201806190759061_RemoveGenreIdToMovie.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

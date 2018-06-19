@@ -36,5 +36,12 @@ namespace Vidly.Controllers
             Movie model = _context.Movies.Include(m => m.Genre).SingleOrDefault(m => m.Id == id);
             return View(model);
         }
+
+        public ActionResult New(MovieFormViewModel model)
+        {
+            var membershipTypes = _context.MembershipTypes.ToList();
+            model.MembershipTypes = membershipTypes;
+            return View("MovieForm", model);
+        }
     }
 }
