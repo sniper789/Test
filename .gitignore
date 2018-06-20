@@ -37,6 +37,6 @@ Thumbs.db
 
 # VS #
 ######
-vs/*.*
+.vs/*.*
 Vidly/bin/*.*
 Vidly/Debug/*.*
