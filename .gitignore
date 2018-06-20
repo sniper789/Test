@@ -37,6 +37,9 @@ Thumbs.db
 
 # VS #
 ######
-.vs/*.*
-Vidly/bin/*.*
-Vidly/Debug/*.*
+/.vs/*.*
+/Vidly/bin/*.*
+/Vidly/Debug/*.*
+/.vs
+/Vidly/bin/roslyn
+/Vidly/obj/Debug
