@@ -37,6 +37,7 @@ Thumbs.db
 
 # VS #
 ######
+*.user
 /.vs/*.*
 /Vidly/bin/*.*
 /Vidly/Debug/*.*
