@@ -13,11 +13,10 @@ namespace Vidly.Models
         [Required]
         [StringLength(255)]
         public string Title { get; set; }
-
-        [Required]        
+     
         public Genre Genre { get; set; }
 
-        [NotMapped]
+        [Required]
         [Display(Name = "Genre")]
         public int GenreId { get; set; }
 

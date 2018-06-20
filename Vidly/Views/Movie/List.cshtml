@@ -32,7 +32,7 @@
                     <tr class="@cssClass">
                         <td>@movie.Id</td>
                         <td>
-                            @Html.ActionLink(movie.Title, "Details", "Movie", new { id = movie.Id }, null)
+                            @Html.ActionLink(movie.Title, "Edit", "Movie", new { id = movie.Id }, null)
                         </td>
                         <td>@movie.Genre.Name</td>
                     </tr>

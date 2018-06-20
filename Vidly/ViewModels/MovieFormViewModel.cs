@@ -8,7 +8,7 @@ namespace Vidly.ViewModels
 {
     public class MovieFormViewModel
     {
-        public List<MembershipType> MembershipTypes { get; set; }
+        public List<Genre> Genres { get; set; }
         public Movie Movie { get; set; }
     }
 }

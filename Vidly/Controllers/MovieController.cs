@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using Vidly.Models;
 using Vidly.ViewModels;
 using System.Data.Entity;
+using System.Data.Entity.Validation;
 
 namespace Vidly.Controllers
 {
@@ -31,17 +32,50 @@ namespace Vidly.Controllers
             return View(model);
         }
 
-        public ActionResult Details(int id)
+        //public ActionResult Details(int id)
+        //{
+        //    Movie model = _context.Movies.Include(m => m.Genre).SingleOrDefault(m => m.Id == id);
+        //    return View(model);
+        //}
+
+        public ActionResult New(MovieFormViewModel viewModel)
         {
-            Movie model = _context.Movies.Include(m => m.Genre).SingleOrDefault(m => m.Id == id);
-            return View(model);
+            var genres = _context.Genres.ToList();
+            viewModel.Genres = genres;
+            return View("MovieForm", viewModel);
         }
 
-        public ActionResult New(MovieFormViewModel model)
+        public ActionResult Edit(int id)
         {
-            var membershipTypes = _context.MembershipTypes.ToList();
-            model.MembershipTypes = membershipTypes;
-            return View("MovieForm", model);
+            var genres = _context.Genres.ToList();
+            var movie = _context.Movies.SingleOrDefault(m => m.Id == id);
+            MovieFormViewModel viewModel = new MovieFormViewModel
+            {
+                Genres = genres,
+                Movie = movie
+            };
+
+            return View("MovieForm", viewModel);
+        }
+
+        [HttpPost]
+        public ActionResult Save(MovieFormViewModel viewModel)
+        {
+            if (viewModel.Movie.Id == 0)
+                _context.Movies.Add(viewModel.Movie);
+            else
+            {
+                Movie movieInDb = _context.Movies.Single(m => m.Id == viewModel.Movie.Id);
+
+                movieInDb.Title = viewModel.Movie.Title;
+                movieInDb.GenreId = viewModel.Movie.GenreId;
+                movieInDb.NumberInStock = viewModel.Movie.NumberInStock;
+                movieInDb.DateAdded = viewModel.Movie.DateAdded;
+                movieInDb.ReleaseDate = viewModel.Movie.ReleaseDate;
+            }
+
+            _context.SaveChanges();
+            return RedirectToAction("List");
         }
     }
 }

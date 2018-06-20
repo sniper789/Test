@@ -255,6 +255,14 @@
     <Compile Include="Migrations\201806190759061_RemoveGenreIdToMovie.Designer.cs">
       <DependentUpon>201806190759061_RemoveGenreIdToMovie.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806200507496_ModifiedBusinessModels.cs" />
+    <Compile Include="Migrations\201806200507496_ModifiedBusinessModels.Designer.cs">
+      <DependentUpon>201806200507496_ModifiedBusinessModels.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806200511225_AddGenreIdAsRequired.cs" />
+    <Compile Include="Migrations\201806200511225_AddGenreIdAsRequired.Designer.cs">
+      <DependentUpon>201806200511225_AddGenreIdAsRequired.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -384,6 +392,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806190759061_RemoveGenreIdToMovie.resx">
       <DependentUpon>201806190759061_RemoveGenreIdToMovie.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806200507496_ModifiedBusinessModels.resx">
+      <DependentUpon>201806200507496_ModifiedBusinessModels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806200511225_AddGenreIdAsRequired.resx">
+      <DependentUpon>201806200511225_AddGenreIdAsRequired.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
