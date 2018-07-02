@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Web.Http;
 using AutoMapper;
 using Vidly.Models;
+using System.Data.Entity;
 
 
 namespace Vidly.Controllers.Api
@@ -26,7 +27,7 @@ namespace Vidly.Controllers.Api
 
         public IEnumerable<MovieDto> GetMovies()
         {
-            return _context.Movies.ToList().Select(Mapper.Map<Movie, MovieDto>);
+            return _context.Movies.Include(m => m.Genre).ToList().Select(Mapper.Map<Movie, MovieDto>);
         }
 
         public MovieDto GetMovie(int id)
@@ -40,14 +41,15 @@ namespace Vidly.Controllers.Api
         }
 
         [HttpPost]
-        public MovieDto CreateMovie(MovieDto movie)
+        public IHttpActionResult CreateMovie(MovieDto movieDto)
         {
             if (!ModelState.IsValid)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
 
-            _context.Movies.Add(Mapper.Map<MovieDto, Movie>(movie));
+            var movie = Mapper.Map<MovieDto, Movie>(movieDto);
+            _context.Movies.Add(movie);
             _context.SaveChanges();
-            return movie;
+            return Created(new Uri(Request.RequestUri + "/" + movie.Id), movieDto);
         }
 
         [HttpPut]
