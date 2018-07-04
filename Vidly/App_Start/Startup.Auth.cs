@@ -68,12 +68,12 @@ namespace Vidly
             //   appSecret: "cbc80926312e75363d50ae4b3179ba74"
             //   );
 
-            var x = new FacebookAuthenticationOptions();
-            x.AppId = "2181192531896011";
-            x.AppSecret = "cbc80926312e75363d50ae4b3179ba74";
-            x.Scope.Add("email");
-            x.Scope.Add("public_profile");
-            x.UserInformationEndpoint = "https://graph.facebook.com/v2.4/me?fields=id,name,email,first_name,last_name";
+            //var x = new FacebookAuthenticationOptions();
+            //x.AppId = "2181192531896011";
+            //x.AppSecret = "cbc80926312e75363d50ae4b3179ba74";
+            ////x.Scope.Add("email");
+            //x.Scope.Add("public_profile");
+            //x.UserInformationEndpoint = "https://graph.facebook.com/v2.4/me?fields=id,name,email,first_name,last_name";
 
             //x.Provider = new FacebookAuthenticationProvider()
             //{
@@ -86,7 +86,18 @@ namespace Vidly
             //        context.Identity.AddClaim(new System.Security.Claims.Claim("urn:facebook:email", context.Email));
             //    }
             //};
-            x.SignInAsAuthenticationType = DefaultAuthenticationTypes.ExternalCookie;
+            //x.SignInAsAuthenticationType = DefaultAuthenticationTypes.ExternalCookie;
+            //app.UseFacebookAuthentication(x);
+
+
+            var x = new FacebookAuthenticationOptions
+            {
+                AppId = "2181192531896011",
+                AppSecret = "cbc80926312e75363d50ae4b3179ba74",
+
+                BackchannelHttpHandler = new FacebookBackChannelHandler()
+            };
+            x.Scope.Add("email");
             app.UseFacebookAuthentication(x);
 
             //app.UseFacebookAuthentication(new Microsoft.Owin.Security.Facebook.FacebookAuthenticationOptions()
@@ -119,5 +130,39 @@ namespace Vidly
             string apiPath = System.Web.VirtualPathUtility.ToAbsolute("~/api/");
             return request.Uri.LocalPath.StartsWith(apiPath);
         }
+    }
+}
+
+public class FacebookOauthResponse
+{
+    public string access_token { get; set; }
+    public string token_type { get; set; }
+    public int expires_in { get; set; }
+}
+
+public class FacebookBackChannelHandler : System.Net.Http.HttpClientHandler
+{
+    protected override async System.Threading.Tasks.Task<System.Net.Http.HttpResponseMessage> SendAsync(System.Net.Http.HttpRequestMessage request, System.Threading.CancellationToken cancellationToken)
+    {
+        var result = await base.SendAsync(request, cancellationToken);
+        if (!request.RequestUri.AbsolutePath.Contains("access_token"))
+            return result;
+
+        // For the access token we need to now deal with the fact that the response is now in JSON format, not form values. Owin looks for form values.
+        var content = await result.Content.ReadAsStringAsync();
+        var facebookOauthResponse = Newtonsoft.Json.JsonConvert.DeserializeObject<FacebookOauthResponse>(content);
+
+        var outgoingQueryString = System.Web.HttpUtility.ParseQueryString(string.Empty);
+        outgoingQueryString.Add(nameof(facebookOauthResponse.access_token), facebookOauthResponse.access_token);
+        outgoingQueryString.Add(nameof(facebookOauthResponse.expires_in), facebookOauthResponse.expires_in + string.Empty);
+        outgoingQueryString.Add(nameof(facebookOauthResponse.token_type), facebookOauthResponse.token_type);
+        var postdata = outgoingQueryString.ToString();
+
+        var modifiedResult = new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.OK)
+        {
+            Content = new System.Net.Http.StringContent(postdata)
+        };
+
+        return modifiedResult;
     }
 }
