@@ -8,41 +8,37 @@
 
 <h2>Movies</h2>
 
-@Html.ActionLink("Add New Movie", "New", "Movie", new { @class="btn btn-primary btn-lg"})
+<p>
+    @Html.ActionLink("Add New Movie", "New", "Movie", new { @class = "btn btn-primary btn-lg" })
+</p>
 
 @{
-    @*if (Model.MovieList.Count == 0)
-    {   <p>Movie list is currently empty!</p> }
-    else*@
-    {
-        <table id="movies" class="table table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>#</th>                    
-                    <th>Title</th>
-                    <th>Genre</th>
-                    <th>Delete</th>
-                </tr>
-            </thead>
-            <tbody>
+    <table id="movies" class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Genre</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tbody>
                 
-                @*@foreach (var movie in Model.MovieList)
-                {
-                    var cssClass = ""; //movie.Id % 2 == 0 ? "success" : "warning";
+            @*@foreach (var movie in Model.MovieList)
+            {
+                var cssClass = ""; //movie.Id % 2 == 0 ? "success" : "warning";
                     
-                    <tr class="@cssClass">
-                        <td>@movie.Id</td>
-                        <td>
-                            @Html.ActionLink(movie.Title, "Edit", "Movie", new { id = movie.Id }, null)
-                        </td>
-                        <td>@movie.Genre.Name</td>
-                        <td><button data-movie-id="@movie.Id" class="btn-link js-delete">Delete</button></td>
-                    </tr>
-                }*@
-            </tbody>
-        </table>
-        }
-    }
+                <tr class="@cssClass">
+                    <td>@movie.Id</td>
+                    <td>
+                        @Html.ActionLink(movie.Title, "Edit", "Movie", new { id = movie.Id }, null)
+                    </td>
+                    <td>@movie.Genre.Name</td>
+                    <td><button data-movie-id="@movie.Id" class="btn-link js-delete">Delete</button></td>
+                </tr>
+            }*@
+        </tbody>
+    </table>
+}
 
 @section scripts
 {
@@ -56,9 +52,6 @@
                 },
 
                 columns: [
-                    {
-                        data: "id"
-                    },
                     {
                         data: "title",
                         render: function(data, type, movie)

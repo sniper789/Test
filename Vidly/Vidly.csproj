@@ -81,6 +81,10 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Owin, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Owin.4.0.0\lib\net451\Microsoft.Owin.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -176,9 +180,6 @@
     </Reference>
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Owin">
-      <HintPath>..\packages\Microsoft.Owin.3.0.1\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Owin.Host.SystemWeb">
       <HintPath>..\packages\Microsoft.Owin.Host.SystemWeb.3.0.1\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
@@ -286,6 +287,26 @@
     <Compile Include="Migrations\201806211103315_AddDisplayFormat.Designer.cs">
       <DependentUpon>201806211103315_AddDisplayFormat.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201807030527339_SeedUsersAndRoles.cs" />
+    <Compile Include="Migrations\201807030527339_SeedUsersAndRoles.Designer.cs">
+      <DependentUpon>201807030527339_SeedUsersAndRoles.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807031043424_Added2NewPropertiesToApplicationUser.cs" />
+    <Compile Include="Migrations\201807031043424_Added2NewPropertiesToApplicationUser.Designer.cs">
+      <DependentUpon>201807031043424_Added2NewPropertiesToApplicationUser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807031054045_Added2NewPropertiesToApplicationUser_Modif.cs" />
+    <Compile Include="Migrations\201807031054045_Added2NewPropertiesToApplicationUser_Modif.Designer.cs">
+      <DependentUpon>201807031054045_Added2NewPropertiesToApplicationUser_Modif.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807031056380_Added2NewPropertiesToApplicationUser_Modif2.cs" />
+    <Compile Include="Migrations\201807031056380_Added2NewPropertiesToApplicationUser_Modif2.Designer.cs">
+      <DependentUpon>201807031056380_Added2NewPropertiesToApplicationUser_Modif2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201807031105453_Added2NewPropertiesToApplicationUser_Modif3.cs" />
+    <Compile Include="Migrations\201807031105453_Added2NewPropertiesToApplicationUser_Modif3.Designer.cs">
+      <DependentUpon>201807031105453_Added2NewPropertiesToApplicationUser_Modif3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ApplicationDbContext.cs" />
@@ -300,8 +321,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CustomerListViewModel.cs" />
+    <Compile Include="ViewModels\ExternalLoginViewModel.cs" />
     <Compile Include="ViewModels\MovieFormViewModel.cs" />
     <Compile Include="ViewModels\MovieListViewModel.cs" />
+    <Compile Include="ViewModels\RegisterViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -542,6 +565,7 @@
     <Content Include="Views\Customer\Details.cshtml" />
     <Content Include="Views\Movie\Details.cshtml" />
     <Content Include="Views\Movie\MovieForm.cshtml" />
+    <Content Include="Views\Movie\ReadOnlyList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -604,6 +628,21 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806211103315_AddDisplayFormat.resx">
       <DependentUpon>201806211103315_AddDisplayFormat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807030527339_SeedUsersAndRoles.resx">
+      <DependentUpon>201807030527339_SeedUsersAndRoles.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807031043424_Added2NewPropertiesToApplicationUser.resx">
+      <DependentUpon>201807031043424_Added2NewPropertiesToApplicationUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807031054045_Added2NewPropertiesToApplicationUser_Modif.resx">
+      <DependentUpon>201807031054045_Added2NewPropertiesToApplicationUser_Modif.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807031056380_Added2NewPropertiesToApplicationUser_Modif2.resx">
+      <DependentUpon>201807031056380_Added2NewPropertiesToApplicationUser_Modif2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201807031105453_Added2NewPropertiesToApplicationUser_Modif3.resx">
+      <DependentUpon>201807031105453_Added2NewPropertiesToApplicationUser_Modif3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -31,7 +31,10 @@ namespace Vidly.Controllers
             //model.MovieList = _context.Movies.Include(m => m.Genre).ToList();
             //return View(model);
 
-            return View();
+            if(User.IsInRole("CanManageMovies"))
+                return View();
+            else
+                return View("ReadOnlyList");
         }
 
         //public ActionResult Details(int id)

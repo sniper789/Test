@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Google;
 using Owin;
 using Vidly.Models;
@@ -32,7 +33,15 @@ namespace Vidly
                     // This is a security feature which is used when you change a password or add an external login to your account.  
                     OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
                         validateInterval: TimeSpan.FromMinutes(30),
-                        regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
+                        regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager)),
+
+                    OnApplyRedirect = ctx =>
+                    {
+                        if (!IsAjaxRequest(ctx.Request))
+                        {
+                            ctx.Response.Redirect(ctx.RedirectUri);
+                        }
+                    }
                 }
             });            
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
@@ -55,14 +64,60 @@ namespace Vidly
             //   consumerSecret: "");
 
             //app.UseFacebookAuthentication(
-            //   appId: "",
-            //   appSecret: "");
+            //   appId: "2181192531896011",
+            //   appSecret: "cbc80926312e75363d50ae4b3179ba74"
+            //   );
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            var x = new FacebookAuthenticationOptions();
+            x.AppId = "2181192531896011";
+            x.AppSecret = "cbc80926312e75363d50ae4b3179ba74";
+            x.Scope.Add("email");
+            x.Scope.Add("public_profile");
+            x.UserInformationEndpoint = "https://graph.facebook.com/v2.4/me?fields=id,name,email,first_name,last_name";
+
+            //x.Provider = new FacebookAuthenticationProvider()
             //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            //    OnAuthenticated =  async context =>
+            //    {
+            //        //Get the access token from FB and store it in the database and
+            //        //use FacebookC# SDK to get more information about the user
+            //        context.Identity.AddClaim(new System.Security.Claims.Claim("FacebookAccessToken", context.AccessToken));
+            //        context.Identity.AddClaim(new System.Security.Claims.Claim("urn:facebook:name", context.Name));
+            //        context.Identity.AddClaim(new System.Security.Claims.Claim("urn:facebook:email", context.Email));
+            //    }
+            //};
+            x.SignInAsAuthenticationType = DefaultAuthenticationTypes.ExternalCookie;
+            app.UseFacebookAuthentication(x);
+
+            //app.UseFacebookAuthentication(new Microsoft.Owin.Security.Facebook.FacebookAuthenticationOptions()
+            //    {
+            //        AppId = "2181192531896011",
+            //        AppSecret = "cbc80926312e75363d50ae4b3179ba74"
+            //    }
+            //);
+
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "61065139928-bjfkuhv8metftg89pu3egmglv1i8kutb.apps.googleusercontent.com",
+                ClientSecret = "I5xZRKONNQ18ubmd9XFEyXfc"
+            });
+        }
+
+        /// <summary>
+        /// Checks if request to web api (this function should not be here!!! Must be refactored in a helper class!!!
+        /// https://stackoverflow.com/questions/20149750/unauthorised-webapi-call-returning-login-page-rather-than-401/20151805
+        /// 
+        /// Some interesting links:
+        /// https://www.codeproject.com/Articles/655086/Handling-authentication-specific-issues-for-AJAX-c
+        /// https://brockallen.com/2013/10/27/using-cookie-authentication-middleware-with-web-api-and-401-response-codes/
+        /// https://thuru.net/2015/07/30/custom-authorization-filter-returns-200-ok-during-authorization-failure-in-web-api-mvc/
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        private static bool IsAjaxRequest(IOwinRequest request)
+        {
+            string apiPath = System.Web.VirtualPathUtility.ToAbsolute("~/api/");
+            return request.Uri.LocalPath.StartsWith(apiPath);
         }
     }
 }

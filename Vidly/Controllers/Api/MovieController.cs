@@ -11,6 +11,7 @@ using System.Data.Entity;
 
 namespace Vidly.Controllers.Api
 {
+    [System.Web.Http.Authorize]
     public class MovieController : ApiController
     {
         private ApplicationDbContext _context;
@@ -43,6 +44,9 @@ namespace Vidly.Controllers.Api
         [HttpPost]
         public IHttpActionResult CreateMovie(MovieDto movieDto)
         {
+            if (!User.IsInRole("CanManageMovies"))
+                throw new HttpResponseException(HttpStatusCode.Forbidden);
+
             if (!ModelState.IsValid)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
 
@@ -55,6 +59,9 @@ namespace Vidly.Controllers.Api
         [HttpPut]
         public void UpdateMovie(int id, MovieDto movie)
         {
+            if (!User.IsInRole("CanManageMovies"))
+                throw new HttpResponseException(HttpStatusCode.Forbidden);
+
             if (!ModelState.IsValid)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);
 
@@ -70,6 +77,9 @@ namespace Vidly.Controllers.Api
         [HttpDelete]
         public void DeleteMovie(int id)
         {
+            if (!User.IsInRole("CanManageMovies"))
+                throw new HttpResponseException(HttpStatusCode.Forbidden);
+
             Movie movie = _context.Movies.SingleOrDefault(m => m.Id == id);
 
             if (movie == null)
